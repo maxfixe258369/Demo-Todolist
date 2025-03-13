@@ -1,18 +1,13 @@
 <script setup>
 import { ref } from 'vue';
+import { useTodoStore } from '../store/TodoStore'
 
-const props = defineProps({
-  orderBy : {
-    type: String,
-  }
-});
-
-const emit = defineEmits(['updateSort']);
+const store = useTodoStore();
 
 const selected = ref('');
 
-const handleSort = () => {
-  emit('updateSort',selected.value);
+const updateSort = () => {
+  store.handleSort(selected.value)
 }
 </script>
 
@@ -20,7 +15,7 @@ const handleSort = () => {
   <div class="control-sort mb-5 flex">
     <select
       name="sort"
-      @change="handleSort"
+      @change="updateSort"
       v-model="selected"
       class="bg-gray-500 text-white p-2 mr-4 text-xl outline-none cursor-pointer"
     >
@@ -32,7 +27,7 @@ const handleSort = () => {
       <option value="Level Descending">Level Descending</option>
     </select>
 
-    <div class="sort-text bg-green-400 text-white font-medium p-2 text-xl">{{ props.orderBy }}</div>
+    <div class="sort-text bg-green-400 text-white font-medium p-2 text-xl">{{ store.orderBy }}</div>
   </div>
 </template>
 

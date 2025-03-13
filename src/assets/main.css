@@ -79,3 +79,43 @@ td .level-medium {
 td .level-low {
   background: gray;
 }
+
+@media screen and (max-width: 1000px) {
+  .block-control {
+    display: block;
+  }
+
+  .control-search {
+    margin-bottom: 20px;
+  }
+
+  .control-right {
+    padding-left: 0;
+  }
+
+  .control-left {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  th {
+    font-size: 18px;
+  }
+
+  td {
+    font-size: 15px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .column-edit {
+    display: block;
+  }
+
+  .column-edit button {
+    width: 70%;
+    display: table;
+    margin: 0 auto 5px;
+  }
+}

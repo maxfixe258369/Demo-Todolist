@@ -1,5 +1,8 @@
 <script setup>
 import { computed, ref } from "vue"
+import { useTodoStore } from '../store/TodoStore'
+
+const store = useTodoStore();
 
 const props = defineProps({
   item: {
@@ -8,12 +11,7 @@ const props = defineProps({
   index: {
     type: Number,
   },
-  isEdit: {
-    type: Boolean,
-  },
 });
-
-const emit = defineEmits(['handleDelete','handleEdit','closeEdit','submitEdit']);
 
 const editName = ref(props.item.name);
 const editLevel = ref(props.item.level);
@@ -44,25 +42,13 @@ const getClassLevel = computed(() => {
   }
 });
 
-const handleDelete = () => {
-  emit('handleDelete',props.item)
-};
-
-const handleEdit = () => {
-  emit('handleEdit',props.item)
-}
-
 const submitEdit = () => {
   const updateItem = {
     ...props.item,
     name: editName.value,
     level: parseInt(editLevel.value),
   };
-  emit('submitEdit',updateItem);
-}
-
-const closeEdit = () => {
-  emit('closeEdit',props.item)
+  store.handleSubmitEdit(updateItem)
 }
 </script>
 
@@ -76,7 +62,7 @@ const closeEdit = () => {
     <td>
       <div v-if="!props.item.selected" class="level" :class="getClassLevel">{{ getLevel }}</div>
       <div v-else>
-        <select  v-model="editLevel" name="priorEdit" class="w-30 border border-black p-2 ml-2">
+        <select  v-model="editLevel" name="priorEdit" class="w-30 border border-black p-2">
           <option value="" hidden>{{ getLevel }}</option>
           <option value="0">High</option>
           <option value="1">Medium</option>
@@ -84,13 +70,13 @@ const closeEdit = () => {
         </select>
       </div>
     </td>
-    <td class="flex justify-center">
-      <button v-if="!props.item.selected" class="bg-yellow-500 text-white p-2 ml-1 mr-1" @click="handleEdit">Edit</button>
+    <td class="flex justify-center column-edit">
+      <button v-if="!props.item.selected" class="bg-yellow-500 text-white p-2 ml-1 mr-1" @click="store.handleEdit(props.item)">Edit</button>
       <div v-else>
         <button class="bg-green-500 text-white p-2 ml-1 mr-1" @click="submitEdit">Update</button>
-        <button class="bg-gray-500 text-white p-2 ml-1 mr-1" @click="closeEdit">Cancel</button>
+        <button class="bg-gray-500 text-white p-2 ml-1 mr-1" @click="store.closeEdit(props.item)">Cancel</button>
       </div>
-      <button class="bg-red-500 text-white p-2 ml-1 mr-1" @click="handleDelete">Delete</button>
+      <button class="bg-red-500 text-white p-2 ml-1 mr-1" @click="store.handleDelete(props.item)">Delete</button>
     </td>
   </tr>
 </template>

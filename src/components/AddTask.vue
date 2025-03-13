@@ -1,29 +1,19 @@
 <script setup>
 import { reactive, ref } from 'vue';
-import { v4 as uuidv4 } from 'uuid'
+import { v4 as uuidv4 } from 'uuid';
+import { useTodoStore } from '@/store/TodoStore';
 
-defineProps({
-  isShowForm: {
-    type: Boolean,
-    default: false,
-  },
-})
+const store = useTodoStore();
 
 const nameInput = ref('');
 const levelInput = ref('-1');
 
-const emit = defineEmits(['toggleForm','handleAddTask']);
-
-const toggleForm = () => {
-  emit('toggleForm');
-}
-
 const closeForm = () => {
-  emit('toggleForm');
+  store.toggleForm();
   resetData();
 }
 
-const handleAddTask = () => {
+const clickAddTask = () => {
   if (nameInput.value !== '' && levelInput.value !== '-1') {
     const newTask = reactive({
       id: uuidv4(),
@@ -31,10 +21,10 @@ const handleAddTask = () => {
       level: -1,
       selected: false
     })
-
     newTask.name = nameInput.value;
     newTask.level = parseInt(levelInput.value);
-    emit('handleAddTask', newTask);
+
+    store.handleAddTask(newTask)
     resetData();
     closeForm();
   }
@@ -54,11 +44,11 @@ const resetData = () => {
   <div class="control-add">
     <button
       class="bg-blue-500 text-white text-center p-2 mb-5 w-full text-xl"
-      @click="toggleForm"
+      @click="store.toggleForm"
     >
       Add task
     </button>
-    <div class="add-main flex" id="formAdd" v-if="isShowForm">
+    <div class="add-main flex" id="formAdd" v-if="store.isShowForm">
       <form action=""></form>
       <input
         v-model="nameInput"
@@ -74,7 +64,7 @@ const resetData = () => {
       </select>
       <button
         class="w-20 bg-green-500 hover:bg-green-700 transition text-white mr-2 ml-2"
-        @click="handleAddTask"
+        @click="clickAddTask"
       >
         Submit
       </button>

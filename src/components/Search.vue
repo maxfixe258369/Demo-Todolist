@@ -1,17 +1,14 @@
 <script setup>
 import { ref } from 'vue';
+import { useTodoStore } from '../store/TodoStore'
 
-const emit = defineEmits(['updateSearch']);
+const store = useTodoStore();
 
 const inputSearch = ref('')
 
-const handleSearch = () => {
-  emit('updateSearch',inputSearch.value);
-}
-
 const clearSearch = () => {
   inputSearch.value = '';
-  emit('updateSearch','');
+  store.handleSearch('')
 }
 </script>
 
@@ -19,7 +16,7 @@ const clearSearch = () => {
   <div class="control-search flex">
     <input
       v-model.trim="inputSearch"
-      @input="handleSearch"
+      @input="store.handleSearch(inputSearch)"
       type="text"
       placeholder="Search for ..."
       class="flex-1 border border-black border-r-0 p-1 pl-4 outline-none"
