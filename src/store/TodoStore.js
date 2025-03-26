@@ -43,7 +43,20 @@ export const useTodoStore = defineStore('todo', () => {
   };
 
   const handleSearch = (txtSearch) => {
-    filteredList.value = list.filter(item => item.name.toLowerCase().includes(txtSearch.toLowerCase()));
+    var listSearch = []
+    if (txtSearch !== '') {
+      listSearch = list.filter(item => item.name.toLowerCase().includes(txtSearch.toLowerCase()));
+    }
+    else {
+      listSearch = [];
+    }
+    filteredList.value = filteredList.value.map((listItem) => {
+      const matchedItem = listSearch.find(itemSearch => itemSearch.id === listItem.id);
+      return {
+        ...listItem,
+        active: matchedItem ? true : false
+      };
+    })
   };
 
   const handleDelete = (itemDelete) => {
@@ -83,5 +96,4 @@ export const useTodoStore = defineStore('todo', () => {
     handleSubmitEdit,
     closeEdit
   }
-
 })
