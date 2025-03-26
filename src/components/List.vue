@@ -22,7 +22,7 @@ const store = useTodoStore();
       </thead>
 
       <tbody>
-        <ListItem v-for="(item,index) in store.sortList" :key="item.id" :item="item" :index="index + 1"/>
+        <ListItem v-for="(item,index) in store.sortList" :key="item.id" :item="item" :index="index + 1" :active="item.active"/>
       </tbody>
     </table>
   </div>

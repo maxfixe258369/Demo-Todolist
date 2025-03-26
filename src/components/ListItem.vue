@@ -11,6 +11,9 @@ const props = defineProps({
   index: {
     type: Number,
   },
+  active: {
+    type: Boolean,
+  },
 });
 
 const editName = ref(props.item.name);
@@ -53,7 +56,7 @@ const submitEdit = () => {
 </script>
 
 <template>
- <tr>
+ <tr :class="{'bg-yellow-400' : active}">
     <td>{{ props.index }}</td>
     <td>
       <div v-if="!props.item.selected" >{{ item.name }}</div>
