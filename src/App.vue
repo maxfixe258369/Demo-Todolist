@@ -12,7 +12,7 @@ import Add from './components/AddTask.vue'
       </div>
       <div class="section-main">
         <div class="wrapper">
-          <h1 class="text-5xl mb-10 site-title">Todo Listtt</h1>
+          <h1 class="text-5xl mb-10 site-title">Todo List</h1>
 
           <div class="block-control flex justify-between mb-10">
             <control />
